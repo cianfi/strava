@@ -3,14 +3,19 @@ import requests
 
 from log import get_logger
 
+from communication.model import (
+    webex_message_user, 
+    webex_list_rooms,
+    webex_list_people,
+    )
+
+
 logger = get_logger(__name__)
 
 
 class Webex:
-    def __init__(self, api_key: str, email: str, message: str):
+    def __init__(self, api_key: str):
         self.api_key = api_key
-        self.email = email
-        self.message = message
 
     def _request(self, method, uri, **kwargs) -> requests.Response:
         return requests.request(
@@ -19,7 +24,7 @@ class Webex:
             **kwargs
         )
 
-    def message_user(self):
+    def message_user(self, email: str, message: str) -> webex_message_user:
         response = self._request(
             method="POST",
             uri="/v1/messages",
@@ -29,18 +34,19 @@ class Webex:
                 "Accept": "application/json"
             },
             json={
-                "toPersonEmail": f"{self.email}",
-                "text": f"{self.message}",
+                "toPersonEmail": f"{email}",
+                "text": f"{message}",
             },
         )
         if response.status_code == requests.codes.ok:
-            return response.json()
+            logger.info(f"[{response.status_code}] Message has been successfully sent.")
+            return webex_message_user.from_dict(response.json())
         else:
             msg: str = f"[{response.status_code}] {response.json()}"
             logger.error(msg)
             raise Exception(msg)
 
-    def list_rooms(self):
+    def list_rooms(self) -> webex_list_rooms:
         response = self._request(
             method="GET",
             uri="/v1/rooms",
@@ -49,13 +55,14 @@ class Webex:
             }
         )
         if response.status_code == requests.codes.ok:
-            return response.json()
+            logger.info(f"[{response.status_code}] Message has been successfully sent.")
+            return webex_list_rooms.from_dict(response.json())
         else:
             msg: str = f"[{response.status_code}] {response.json()}"
             logger.error(msg)
             raise Exception(msg)
 
-    def list_people(self):
+    def list_people(self, email: str) -> webex_list_people:
         response = self._request(
             method="GET",
             uri="/v1/people",
@@ -63,11 +70,12 @@ class Webex:
                 "Authorization": f"Bearer {self.api_key}"
             },
             params={
-                "email": f"{self.email}"
+                "email": f"{email}"
             }
         )
         if response.status_code == requests.codes.ok:
-            return response.json()
+            logger.info(f"[{response.status_code}] Message has been successfully sent.")
+            return webex_list_people.from_dict(response.json())
         else:
             msg: str = f"[{response.status_code}] {response.json()}"
             logger.error(msg)

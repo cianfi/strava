@@ -11,6 +11,30 @@ Once the LLM returns the output data, the program will send the summary to the u
 
 ![image](images/mvp_1_flow_diagram.png)
 
+
+# Setting up Environment Variables
+All variables are stored in a ".env" file which is used on the hosted device. The environment variables needed are:
+For Strava
+- access_token=""
+- expires_at=""
+- refresh_token = ""
+- auth_token = ""
+- client_id = ""
+- client_secret = ""
+
+For Gemini
+- gemini_api_key = ""
+
+For Telegram
+- telegram_api_key = ""
+
+For Webex
+- webex_api_key = ""
+
+Email -> can add multiple by using "," between each email
+- webex_email = ""
+
+
 # Future Plans
 There are multiple different avenues this project will take in the future. 
 

@@ -18,13 +18,13 @@ from dotenv import set_key
 logger = get_logger(__name__)
 
 class Strava:
-    def __init__(self, auth_token, client_id, client_secret, refresh_token, access_token, expires_in) -> None:
+    def __init__(self, auth_token, client_id, client_secret, refresh_token, access_token, expires_at) -> None:
         self.access_token = access_token
         self.auth_token = auth_token
         self.client_id = client_id
         self.client_secret = client_secret  
         self.refresh_token = refresh_token
-        self.expires_in = expires_in
+        self.expires_at = expires_at
         self.base_url = "https://www.strava.com"
         self._validate_access_token()
 
@@ -36,11 +36,11 @@ class Strava:
         )
     
     def _validate_access_token(self) -> None:
-        if self.expires_in is None:
+        if self.expires_at is None:
             logger.warning("Refreshing access token because no expiration date has been set.")
             self.refresh()
             
-        elif datetime.datetime.now().timestamp() > int(self.expires_in):
+        elif datetime.datetime.now().timestamp() > int(self.expires_at):
             logger.warning("Refreshing access token because access token has expired.")
             self.refresh()
         else: 
@@ -83,7 +83,7 @@ class Strava:
             set_key(".env", "access_token", response_object.access_token)
             set_key(".env", "expires_at", str(response_object.expires_at))
             self.access_token = response_object.access_token
-            self.expires_in = response_object.expires_in
+            self.expires_at = response_object.expires_at
             logger.info("Refresh was successful.")
         else:
             logger.error(f"Refresh Failed. [{response.status_code}] {response.json()}")
@@ -111,7 +111,7 @@ class Strava:
             uri="/api/v3/athlete/activities",
             params={
                 "access_token": f"{self.access_token}",
-                "after": f"{datetime.datetime.now(datetime.timezone.utc).replace(month=7, day=28, hour=0, minute=0, second=0, microsecond=0).timestamp()}"
+                "after": f"{datetime.datetime.now(datetime.timezone.utc).replace(hour=0, minute=0, second=0, microsecond=0).timestamp()}"
             }
         )
         if response.status_code == requests.codes.ok:
