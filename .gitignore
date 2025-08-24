@@ -209,3 +209,4 @@ __marimo__/
 scrap.py
 logs/
 logs.drawio
+pyproject.toml

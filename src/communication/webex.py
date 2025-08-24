@@ -1,7 +1,7 @@
 import os
 import requests
 
-from log import get_logger
+from utilities.log import get_logger
 
 from communication.model import (
     webex_message_user, 

@@ -9,7 +9,7 @@ The program will send the run data to Gemini (LLM), get a summary of the run and
 
 Once the LLM returns the output data, the program will send the summary to the user. Currently Webex is supported. 
 
-![image](images/mvp_1_flow_diagram.png)
+![image](docs/images/mvp_1_flow_diagram.png)
 
 
 # Setting up Environment Variables

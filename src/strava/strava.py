@@ -11,7 +11,7 @@ from strava.model import (
     DetailedRun
     )
 
-from log import get_logger
+from utilities.log import get_logger
 
 from dotenv import set_key
 

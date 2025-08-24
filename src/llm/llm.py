@@ -3,7 +3,7 @@ import os
 from google import genai
 
 from llm.model import LLMResponse
-from log import get_logger
+from utilities.log import get_logger
 
 logger = get_logger(__name__)
 

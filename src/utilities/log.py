@@ -27,7 +27,7 @@ class StravaLogger:
         )
 
         file_handler = logging.FileHandler(log_path)
-        file_handler.setLevel(level=logging.INFO)
+        file_handler.setLevel(level=logging.DEBUG)
         file_handler.setFormatter(file_formatter)
         return file_handler
 
